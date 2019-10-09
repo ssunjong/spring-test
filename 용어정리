@@ -1,0 +1,25 @@
+@RestController vs @Controller ?
+
+가장 큰 차이는 ResponseBody가 생성되냐 안되냐. Rest는 생성된다.
+따라서 return했을 때 RestController는 return값이 그대로 실행되고 Controller는 return에 .jsp(jsp가 기본자였을때)가 실행
+예를 들어
+@RestController
+public class User {
+  @GetMapping("/hi")
+  public String hi() {
+    return "hi";
+    }
+}
+이 경우 localhost/hi 에 접속하면
+RestController는 hi가 화면에 나오지만 Controller는 hi.jsp가 실행되고 hi.jsp가 없으면 오류가 발생한다.
+
+
+
+그럼 여기서 RequestBody가 무엇인가??
+우선 Http 요청 몸체를 자바 객체로 변환시켜 준다 고 생각한다.
+ <-> ResponseBody는 자바 객체를 Http 응답 몸체로 변환하는데 사용한다.
+ 
+ @PathVariable?
+ 말 그대로 url 경로에 변수를 넣어주는 것이다. Restful 서비스의 uri 형태다.
+ 
+ 
