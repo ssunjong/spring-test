@@ -1,0 +1,59 @@
+<!-- Controller -->
+@RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView excelUp(MultipartHttpServletRequest request) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		MultipartFile file = null;
+		Iterator<String> iterator = request.getFileNames();
+		if (iterator.hasNext()) {
+			file = request.getFile(iterator.next());
+		}
+
+		List<EquipManageVO> list = equipManageService.uploadExcel(file);
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+		return mv;
+	}
+  
+  <!-- Service -->
+  public List<EquipManageVO> uploadExcel(MultipartFile excelFile) throws Exception {
+		List<EquipManageVO> list = new ArrayList<EquipManageVO>();
+		try {
+
+			System.out.println("hello");
+			XSSFWorkbook workbook = new XSSFWorkbook(excelFile.getInputStream());
+
+			// 첫번째 시트 불러오기
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			for (int i = 1; i < sheet.getLastRowNum() + 1; i++) {
+				EquipManageVO input = new EquipManageVO();
+				XSSFRow row = sheet.getRow(i);
+
+				// 행이 존재하기 않으면 패스
+				if (null == row) {
+					continue;
+				}
+
+				XSSFCell cell = row.getCell(1);
+				if (null != cell)
+					input.setEquipname(cell.getStringCellValue());
+				cell = row.getCell(2);
+				if (null != cell)
+					input.setPurpose(cell.getStringCellValue());
+				cell = row.getCell(3);
+				if (null != cell)
+					input.setIp(cell.getStringCellValue());
+				cell = row.getCell(4);
+				if (null != cell)
+					input.setIsuse(cell.getStringCellValue());
+
+				list.add(input);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
