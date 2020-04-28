@@ -1,0 +1,42 @@
+RestTemplate restTemplate = new RestTemplate();
+		// api 호출(GET)
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+				"<여기에 가져올 url적기>",
+				String.class);
+
+		// responseEntity.getBody()를 통해 요청한 API의 결과를 받아옴
+
+		// 결과가 JSON형태의 String으로 넘어오기때문에 String JSON으로 형변환 해준다
+		JSONObject jsonObject = (JSONObject) new JSONParser().parse(responseEntity.getBody());
+
+		// API 결과를 JSON으로 변환한 값에서
+		// NWListPublicReservationInstitution 라는 이름을 가진 변수의 값을 가져온다
+		jsonObject = (JSONObject) jsonObject.get("NWListPublicReservationInstitution");
+
+		// 이후 NWListPublicReservationInstitution 라는 녀석의 값을 가져와서
+		// 그 안에 RESULT라는 이름으로 해당 구의 시설에 대한 정보가 담겨있기에 row 라는 놈을 가져온다
+		JSONArray jsonArray = (JSONArray) jsonObject.get("row");
+
+		// 내가 원하는 클래스에 JSON 데이터를 담기위해 ArrayList 생성
+		// ArrayList는 일반 배열과 다르게 정해진 사이즈의 배열이 아니라
+		// 실시간으로 add함수를 호출해 데이터를 넣을때마다
+		// 리스트 크기가 증가함
+		List<Info> arrayListOfArea = new ArrayList<Info>();
+
+		// 가져온 JSONArray의 개수만큼 돌면서
+		for (int indexOfLocation = 0; indexOfLocation < jsonArray.size(); indexOfLocation++) {
+			// indexOfLocation번째 JSONObject를 JSONArray로 부터 빼내서
+			JSONObject currentLocation = (JSONObject) jsonArray.get(indexOfLocation);
+
+			// 내가 작성해둔 Area 클래스에 시설이름, 주소등의 데이터를 세팅하고
+			Info info = new Info();
+
+			info.setMinClassName((String) currentLocation.get("MINCLASSNM"));
+			System.out.println("getInfoClassName " + info.getMinClassName());
+			info.setServiceName((String) currentLocation.get("SVCNM"));
+			System.out.println("getServiceName " + info.getServiceName());
+			info.setPlaceName((String) currentLocation.get("PLACENM"));
+			System.out.println("getPlaceName " + info.getPlaceName());
+
+			// 세팅한 시설 정보를 ArrayList에 담는다
+			arrayListOfArea.add(info);
