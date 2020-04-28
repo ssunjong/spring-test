@@ -1,0 +1,36 @@
+import java.io.IOException;
+import java.util.Iterator;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class Main {
+
+	public static void main(String args[]) {
+
+		// JSoup을 이용한 www.cgv.co.kr/movies/ 크롤링
+		String url = "http://www.cgv.co.kr/movies/"; // 크롤링 할 url
+		Document doc = null;
+
+		try {
+			doc = Jsoup.connect(url).get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// select를 이용하여 원하는 태그를 선택한다. select는 원하는 결과를 가져오기 위한 아주 중요한 기능
+		Elements element = doc.select("div.sect-movie-chart");
+		System.out.println("==========================================================");
+		// iterator을 사용해서 하나씩 값 가져오기
+		Iterator<Element> ie1 = element.select("strong.rank").iterator();
+		Iterator<Element> ie2 = element.select("strong.title").iterator();
+		System.out.println("==========================================================");
+
+		while (ie1.hasNext()) {
+			System.out.println(ie1.next().text() + "\t" + ie2.next().text());
+		}
+	}
+
+}
