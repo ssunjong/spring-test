@@ -34,3 +34,15 @@ public class Main {
 	}
 
 }
+
+
+// a href의 주소가 필요할 때
+Elements link = element.select("a");
+String aurl = link.attr("href");
+
+이렇게하면 주소를 가져온다
+
+
+
+
+
