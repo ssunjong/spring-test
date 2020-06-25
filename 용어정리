@@ -42,8 +42,8 @@ RedirectAttributes는 리다이렉트가 발생하기 전 모든 플래시 속�
 addFlashAttribute()는 리다이렉트 직전 플래시에 저장하는 메소드이다. 리다이렉트 이후에 소멸한다.
 
  
-
-
+@RequestParam(value="idx") int idx
+HttpServletRequest랑 같은 역할. RequestParam(가져올데이터) 데이터타입 데이터변수
 
 
  
