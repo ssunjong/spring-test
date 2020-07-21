@@ -1,0 +1,5 @@
+select ifnull(email, name) as email from member;
+email 테이블에서 email값이 null일때 name의 값이 들어간다.
+
+selectkey
+연관시켜야할 두 테이블이 있는데 거기서 idx 설정해줄 때 쓰는 것
