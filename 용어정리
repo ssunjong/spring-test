@@ -46,4 +46,9 @@ addFlashAttribute()는 리다이렉트 직전 플래시에 저장하는 메소�
 HttpServletRequest랑 같은 역할. RequestParam(가져올데이터) 데이터타입 데이터변수
 
 
- 
+forward : url 변화 x , 객체의 재사용 o
+redirect : url 변화 o, 객체의 재사용 x
+로그인, 글쓰기 등 서버나 DB가 변할때는 redirect를 쓰고,
+검색, 리스트 보기 등은 forward방식으로 하는게 옳다
+객체의 재사용이 없으므로 글이 두번 등록되거나 하는 것을 방지
+
